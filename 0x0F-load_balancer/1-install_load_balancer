@@ -7,7 +7,7 @@ sudo apt-get -y install haproxy=1.8.\*
 sudo sed -i '/errorfile 504/a listen webdtb' /etc/haproxy/haproxy.cfg
 sudo sed -i '/listen webdtb/a         bind :80' /etc/haproxy/haproxy.cfg
 sudo sed -i '/bind :80/a         mode http' /etc/haproxy/haproxy.cfg
-sudo sed -i '/mode http/a         server 175573-web-01:80 check' /etc/haproxy/haproxy.cfg
-sudo sed -i '/server 175573-web-01:80 check/a         server 175573-web-02:80 check' /etc/haproxy/haproxy.cfg
+sudo sed -i '/mode http/a         server 175573-web-01 100.26.226.165:80 check' /etc/haproxy/haproxy.cfg
+sudo sed -i '/server 175573-web-01 100.26.226.165:80 check/a         server 175573-web-02 18.210.15.9:80 check' /etc/haproxy/haproxy.cfg
 sudo sed -i '/#EXTRAOPTS="-de -m 16"/a ENABLED=1' /etc/default/haproxy
 sudo service haproxy start
