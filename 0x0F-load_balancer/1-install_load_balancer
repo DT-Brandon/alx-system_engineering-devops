@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# This script installs and configures HAproxy on Ubuntu 16.04 LTS
+
+set -euo pipefail
+
+# Install HAproxy
+sudo apt-get update
+sudo apt-get install -y haproxy
+
+# Backup original HAproxy configuration file
+sudo cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.bak
+
+# Configure HAproxy
+sudo cat <<EOF > /etc/haproxy/haproxy.cfg
+frontend http-in
+    bind *:80
+    default_backend servers
+
+backend servers
+    balance roundrobin
+    server web-01 100.26.226.165:80 check
+    server web-02 18.210.15.9:80 check
+EOF
+
+# Make sure HAproxy can be managed via an init script
+sudo sed -i 's/ENABLED=0/ENABLED=1/' /etc/default/haproxy
+
+# Restart HAproxy
+sudo service haproxy restart
+
+# Verify HAproxy is running
+sudo service haproxy status
