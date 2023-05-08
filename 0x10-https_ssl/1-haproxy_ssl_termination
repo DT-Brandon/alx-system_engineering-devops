@@ -1,4 +1,5 @@
-global
+
+bal
         log /dev/log    local0
         log /dev/log    local1 notice
         chroot /var/lib/haproxy
@@ -7,6 +8,7 @@ global
         user haproxy
         group haproxy
         daemon
+        tune.ssl.default-dh-param 2048
 
         # Default SSL material locations
         ca-base /etc/ssl/certs
@@ -41,8 +43,8 @@ listen webdtb
         bind :80
         mode http
         balance roundrobin
-        server 652-web-01 35.190.176.186:80 check
-        server 652-web-02 35.196.156.157:80 check
+        server 175573-web-01 100.26.226.165:80 check
+        server 175573-web-02 18.210.15.9:80 check
 
 frontend www-http
         bind :80
@@ -50,11 +52,11 @@ frontend www-http
         default_backend web-backend
 
 frontend www-https
-        bind :443 ssl crt /etc/haproxy/ssl/www.thelaura.tech.pem
-        reqadd X-Forwarded-Proto:\ https
+        bind :443 ssl crt /etc/haproxy/certs/www.webdtb.tech.pem
+        mode http
         default_backend web-backend
 
 backend web-backend
         redirect scheme https if !{ ssl_fc }
-        server 652-web-01 35.190.176.186:80 check
-        server 652-web-02 35.196.156.157:80 check
+        server 175573-web-01 100.26.226.165:80 check
+        server 175573-web-02 18.210.15.9:80 check
