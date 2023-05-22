@@ -7,10 +7,9 @@ import sys
 
 if __name__ == "__main__":
 
-    headers = {'Accept': 'application/json'}
     userId = sys.argv[1]
     user = requests.get("http://jsonplaceholder.typicode.com/users/{}"
-                        .format(userId), headers = headers)
+                        .format(userId))
 
     name = user.json().get('name')
 
