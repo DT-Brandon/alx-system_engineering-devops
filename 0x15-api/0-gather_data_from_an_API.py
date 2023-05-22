@@ -7,13 +7,14 @@ import sys
 
 if __name__ == "__main__":
 
+    headers = {'Accept': 'application/json'}
     userId = sys.argv[1]
-    user = requests.get("https://jsonplaceholder.typicode.com/users/{}"
-                        .format(userId))
+    user = requests.get("http://jsonplaceholder.typicode.com/users/{}"
+                        .format(userId), headers = headers)
 
     name = user.json().get('name')
 
-    todos = requests.get('https://jsonplaceholder.typicode.com/todos')
+    todos = requests.get('http://jsonplaceholder.typicode.com/todos')
     totalTasks = 0
     completed = 0
 
